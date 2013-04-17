@@ -27,6 +27,6 @@ bash "compile_nginx_source" do
     ./configure
     make
     sudo make install
-    ldconfig /usr/local/lib
+    sudo ldconfig /usr/local/lib
   EOH
 end
