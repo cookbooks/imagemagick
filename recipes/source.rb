@@ -33,6 +33,7 @@ bash "compile_imagemagick_source" do
   EOH
 
   not_if do
+    node.automatic_attrs['imagemagick'] &&
     node.automatic_attrs['imagemagick']['version'] == node['imagemagick']['version']
   end
 end
