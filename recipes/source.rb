@@ -1,4 +1,4 @@
-imagemagick_url = "http://www.imagemagick.org/download/ImageMagick.tar.gz"
+imagemagick_url = node['imagemagick']['source']['url']
 
 dev_pkg = value_for_platform(
   ["redhat", "centos", "fedora"] => { "default" => "ImageMagick-devel" },
@@ -9,26 +9,30 @@ dev_pkg = value_for_platform(
     "default" => "libmagickwand-dev"
   }
 )
- 
-# src_filepath  = "/tmp/ImageMagick.tar.gz"
 
-package dev_pkg
+src_filepath  = "#{Chef::Config['file_cache_path'] || '/tmp'}/ImageMagick-#{node['imagemagick']['version']}.tar.gz"
 
-# remote_file imagemagick_url do
-#   source imagemagick_url
-#   path src_filepath
-# end
+# package dev_pkg
 
-bash "compile_nginx_source" do
-  user "root"
-  cwd "/tmp"
+remote_file imagemagick_url do
+  source imagemagick_url
+  checksum node['imagemagick']['source']['checksum']
+  path src_filepath
+  backup false
+end
+
+bash "compile_imagemagick_source" do
+  cwd ::File.dirname(src_filepath)
   code <<-EOH
-    wget http://www.imagemagick.org/download/ImageMagick.tar.gz
-    tar -xzvf ImageMagick.tar.gz
-    cd ImageMagick-6.8.4-10
+    tar -xzvf #{::File.basename(src_filepath)}
+    cd ImageMagick-#{node['imagemagick']['version']}
     ./configure
     make
     make install
     ldconfig /usr/local/lib
   EOH
+
+  not_if do
+    node.automatic_attrs['imagemagick']['version'] == node['imagemagick']['version']
+  end
 end
