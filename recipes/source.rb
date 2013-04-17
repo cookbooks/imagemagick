@@ -23,8 +23,8 @@ end
 bash "compile_nginx_source" do
   cwd ::File.dirname(src_filepath)
   code <<-EOH
-    tar zxf #{::File.basename(src_filepath)} -C #{::File.dirname(src_filepath)}/imagemagick &&
-    cd #{::File.dirname(src_filepath)}/imagemagick &&
+    tar -xzvf #{::File.basename(src_filepath)} -C /tmp/imagemagick &&
+    cd /tmp/imagemagick &&
     ./configure &&
     make && make install &&
     ldconfig /usr/local/lib
