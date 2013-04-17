@@ -10,23 +10,25 @@ dev_pkg = value_for_platform(
   }
 )
  
-src_filepath  = "/tmp/ImageMagick.tar.gz"
+# src_filepath  = "/tmp/ImageMagick.tar.gz"
 
 package dev_pkg
 
-remote_file imagemagick_url do
-  source imagemagick_url
-  path src_filepath
-end
+# remote_file imagemagick_url do
+#   source imagemagick_url
+#   path src_filepath
+# end
 
 bash "compile_nginx_source" do
-  cwd ::File.dirname(src_filepath)
+  user "root"
+  cwd "/tmp"
   code <<-EOH
-    tar -xzvf #{::File.basename(src_filepath)} -C /tmp/imagemagick
+    wget http://www.imagemagick.org/download/ImageMagick.tar.gz
+    tar -xzvf ImageMagick.tar.gz -C /tmp/imagemagick
     cd /tmp/imagemagick
     ./configure
     make
-    sudo make install
-    sudo ldconfig /usr/local/lib
+    make install
+    ldconfig /usr/local/lib
   EOH
 end
