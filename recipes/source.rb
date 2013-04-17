@@ -10,7 +10,7 @@ dev_pkg = value_for_platform(
   }
 )
  
-src_filepath  = "#{Chef::Config['file_cache_path'] || '/tmp'}/ImageMagick.tar.gz"
+src_filepath  = "/tmp/ImageMagick.tar.gz"
 
 package dev_pkg
 
