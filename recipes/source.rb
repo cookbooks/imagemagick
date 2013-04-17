@@ -32,8 +32,8 @@ bash "compile_imagemagick_source" do
     ldconfig /usr/local/lib
   EOH
 
-  not_if do
-    node.automatic_attrs['imagemagick'] &&
-    node.automatic_attrs['imagemagick']['version'] == node['imagemagick']['version']
-  end
+  # not_if do
+  #   node.automatic_attrs['imagemagick'] &&
+  #   node.automatic_attrs['imagemagick']['version'] == node['imagemagick']['version']
+  # end
 end
