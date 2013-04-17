@@ -26,7 +26,7 @@ bash "compile_nginx_source" do
     cd /tmp/imagemagick
     ./configure
     make
-    make install
+    sudo make install
     ldconfig /usr/local/lib
   EOH
 end
