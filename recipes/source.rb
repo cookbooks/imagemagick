@@ -1,5 +1,4 @@
-imagemagick_url = node['imagemagick']['source']['url'] ||
-  "http://www.imagemagick.org/download/ImageMagick.tar.gz"
+imagemagick_url = "http://www.imagemagick.org/download/ImageMagick.tar.gz"
 
 dev_pkg = value_for_platform(
   ["redhat", "centos", "fedora"] => { "default" => "ImageMagick-devel" },
