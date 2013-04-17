@@ -24,8 +24,8 @@ bash "compile_nginx_source" do
   cwd "/tmp"
   code <<-EOH
     wget http://www.imagemagick.org/download/ImageMagick.tar.gz
-    tar -xzvf ImageMagick.tar.gz -C /tmp/imagemagick
-    cd /tmp/imagemagick
+    tar -xzvf ImageMagick.tar.gz
+    cd ImageMagick-6.8.4-10
     ./configure
     make
     make install
