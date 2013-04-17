@@ -12,7 +12,7 @@ dev_pkg = value_for_platform(
 
 src_filepath  = "#{Chef::Config['file_cache_path'] || '/tmp'}/ImageMagick-#{node['imagemagick']['version']}.tar.gz"
 
-# package dev_pkg
+package dev_pkg
 
 remote_file imagemagick_url do
   source imagemagick_url
