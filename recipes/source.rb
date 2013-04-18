@@ -18,11 +18,11 @@ remote_file imagemagick_url do
   source imagemagick_url
   checksum node['imagemagick']['source']['checksum']
   path src_filepath
-  not_if { File.exists?(src_filepath) }
 end
 
 bash "compile_imagemagick_source" do
   cwd ::File.dirname(src_filepath)
+  user 'root'
   code <<-EOH
     tar -xzvf #{::File.basename(src_filepath)}
     cd ImageMagick-#{node['imagemagick']['version']}
@@ -30,12 +30,10 @@ bash "compile_imagemagick_source" do
     make
     make install
     ldconfig /usr/local/lib
+    cd #{File.dirname(src_filepath)}
+    rm -rf ImageMagick-#{node['imagemagick']['version']}
   EOH
 
-  not_if do
-    identify = Mixlib::ShellOut.new("identify -version")
-    identify.run_command rescue false
-    identify.stdout.split("\n") == ["Version: ImageMagick 6.8.4-10 2013-04-18 Q16 http://www.imagemagick.org", "Copyright: Copyright (C) 1999-2013 ImageMagick Studio LLC", "Features: DPC OpenMP", "Delegates: bzlib djvu fontconfig freetype jng jp2 jpeg lcms lqr openexr pango png ps tiff x xml zlib"]
-  end
+  not_if { File.exists?("/usr/local/bin/identify") }
 
 end
