@@ -18,7 +18,7 @@ Usage
 
 To install just ImageMagick,
 
-  include_recipe "imagemagick"
+  include_recipe "imagemagick::default"
 
 In your own recipe/cookbook. To install the development libraries,
 
